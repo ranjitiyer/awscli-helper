@@ -10,9 +10,9 @@ from concurrent import futures
 ListOfTuples = List[tuple]
 
 parent='./db'
-description_extension = '.des'
+description_extension = '.desc'
 synopsis_extension = '.syn'
-examples_extension = '.exmpl'
+examples_extension = '.examples'
 
 commands_file = 'commands'
 history = []
@@ -89,20 +89,22 @@ def write_command_summary(service_name, command, command_url) -> str:
 		
 		# get examples
 		examples_strio = io.StringIO()
+
+		# filter out the header that says 'Examples'
 		examples_div = soup.find(id='examples')
 		if examples_div is not None:
-			for item in examples_div:
-				if not isinstance(item, element.NavigableString):
-					examples_strio.write(item.text)
+			for tag in examples_div:
+				if not isinstance(tag, element.NavigableString) \
+					and tag.name != "h2" \
+					and tag.name != "a":
+					examples_strio.write(tag.text)
 					examples_strio.write("\n")
-
+					examples_strio.write("\n")
 			examples_str = examples_strio.getvalue()
 			examples_strio.close()
 			write_examples(service_name, command, examples_str)
 
 		return history_lookup_key
-		# update in-mem history
-		#history.append(history_lookup_key)
 	else:
 		print(f'Found {service_name} : {command} in history, hence skipping')
 
@@ -121,7 +123,6 @@ def write_commands(service_name:str, commands:ListOfTuples):
 
 def write_service_summaries():
 	services = get_all_services()
-	# services = services[:25]
 	for service_tuple in services:
 		service_name = service_tuple[0]
 
@@ -146,11 +147,10 @@ def write_service_summaries():
 				if history_lookup_key is not None:
 					history.append(f.result())
 			except RuntimeError as e:
-				# failed
 				print(e)
 
-		# finally, shutdown the threadpool
-		ex.shutdown()	
+		# shutdown the threadpool
+		ex.shutdown()
 
 def create_folder_structures():
 	services = get_all_services()
@@ -166,9 +166,6 @@ if '__main__' == __name__:
 		create_folder_structures()
 		write_service_summaries()
 
-		# delete history file
-		# os.remove(HIST_FILE)
-	#except RuntimeError:
 	finally:
 		print(*history)
 		with io.open(HIST_FILE, 'w') as hist_file:

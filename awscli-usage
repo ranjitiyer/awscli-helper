@@ -9,6 +9,14 @@ function usage() {
 	exit 1
 }
 
+if [[ $1 == "help" ]]; then
+	usage
+fi
+
+SYNOPSIS_EXTN='syn'
+DESCRIPTION_EXTN='desc'
+EXAMPLES_EXTN='examples'
+
 SERVICE=$1
 COMMAND=$2
 ACTION=$3
@@ -26,19 +34,26 @@ function validate() {
 
 validate $@
 
-
+echo -e "\n"
 if [[ $COMMAND == "commands" ]]; then
-	cat $DB_DIR/$SERVICE/commands
+	cat $DB_DIR/$SERVICE/commands	
 elif [[ $ACTION == "description" || $ACTION == "desc" ]]; then
-	cat $DB_DIR/$SERVICE/$COMMAND.des
+	cat $DB_DIR/$SERVICE/$COMMAND.$DESCRIPTION_EXTN
 elif [[ $ACTION == "usage" ]]; then
-	cat $DB_DIR/$SERVICE/$COMMAND.syn
-elif [[ $ACTION == "examples" ]]; then
-	cat $DB_DIR/$SERVICE/$COMMAND.exmpl
-else
-	cat $DB_DIR/$SERVICE/$COMMAND.des
+	cat $DB_DIR/$SERVICE/$COMMAND.$SYNOPSIS_EXTN
+elif [[ $ACTION == "examples" && -e $DB_DIR/$SERVICE/$COMMAND.$EXAMPLES_EXTN ]]; then
+	cat $DB_DIR/$SERVICE/$COMMAND.$EXAMPLES_EXTN
+elif [[ $ACTION == "" ]]; then
+	cat $DB_DIR/$SERVICE/$COMMAND.$DESCRIPTION_EXTN
 	echo -e "\n*****\n"
-	cat $DB_DIR/$SERVICE/$COMMAND.syn
+	cat $DB_DIR/$SERVICE/$COMMAND.$SYNOPSIS_EXTN
 	echo -e "\n*****\n"
-	cat $DB_DIR/$SERVICE/$COMMAND.exmpl	
+	cat $DB_DIR/$SERVICE/$COMMAND.$EXAMPLES_EXTN
 fi
+
+echo -e "\n"
+echo -e "Service Reference: https://docs.aws.amazon.com/cli/latest/reference/$SERVICE/index.html"
+if [[ $COMMAND != "" && $COMMAND != "commands" ]]; then
+	echo -e "Command Reference: https://docs.aws.amazon.com/cli/latest/reference/$SERVICE/$COMMAND.html"
+fi
+echo -e "\n"

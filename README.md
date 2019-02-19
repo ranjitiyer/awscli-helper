@@ -54,6 +54,10 @@ python src/download.py
 
 If there are transient failures like connection issues, re-run the download script. It keeps a history file so it won't process commands already completed. If you do actually want a full recreation of the database, delete the `.history` file in the parent folder.
 
+# Limitations
+* Script and db must be in the same folder because an installer doesn't exist yet.
+
 # Improvements
+* Installer
 * Colored printing of code snippets
-* Create a command to list AWS services
+* Command to list AWS services

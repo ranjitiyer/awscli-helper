@@ -16,19 +16,27 @@ List S3 commands
 ```
 ./awscli-usage.sh s3 commands
 ```
-Show S3 `rm` usage
+Show S3 `cp` usage
 ```
-./awscli-usage.sh s3 rm usage
+./awscli-usage.sh s3 cp usage
 ```
-Show S3 `rm` examples
+Show S3 `cp` examples
 ```
-./awscli-usage.sh s3 rm examples
+./awscli-usage.sh s3 cp examples
 ```
 ![awscli-usage](https://user-images.githubusercontent.com/529036/53047970-78c55a00-3448-11e9-980d-c2d5ea873dc5.gif)
 
 # How does it work
 
-A Python program scrapes all the AWS CLI html pages, reads off description, synopsis and examples text and copies them to the local file system. The bash script acts as the front end. 
+A Python script scrapes AWS CLI html pages, reads off description, synopsis and examples and copies them to files under a folder structure that looks like this 
+```
+./db/<service>/commands                       # supported commands
+./db/<service>/<command>/<command>.desc       # command description
+./db/<service>/<command>/<command>.syn        # command synopsis
+./db/<service>/<command>/<command>.examples   # command examples
+```
+
+The bash script acts as the front end to the tool.
 
 # Generate the usage database locally
 

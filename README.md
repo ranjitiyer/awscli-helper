@@ -52,7 +52,7 @@ pip install -r requirements.txt
 python src/download.py
 ```
 
-If there are transient failures like connection issues, re-run the download script. It keeps a history file so it won't process commands already completed. If you do actually want a full recreation of the database, delete the `.history` file in the parent folder.
+If there are transient failures like connection issues, re-run the download script. It keeps a history file so it won't process commands already completed. If you do actually want a full recreation of the database, delete the `.history` file in the parent folder before running the script.
 
 # Limitations
 * Script and db must be in the same folder because an installer doesn't exist yet.

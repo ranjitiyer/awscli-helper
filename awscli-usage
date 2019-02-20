@@ -34,7 +34,10 @@ function validate() {
 
 validate $@
 
-echo -e "\n"
+if [[ ! -d $DB_DIR ]]; then
+	unzip db.zip
+fi
+
 if [[ $COMMAND == "commands" ]]; then
 	cat $DB_DIR/$SERVICE/commands	
 elif [[ $ACTION == "description" || $ACTION == "desc" ]]; then

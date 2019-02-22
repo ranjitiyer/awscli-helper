@@ -1,6 +1,6 @@
 # awscli-helper
 
-Show AWS CLI usage and examples on the terminal. This does not eliminate the need to lookup aws cli documentation on the web but might minimize the number of times you need to leave the terminal and navigate web links in order to find an example or synopsis you a command you want to construct. This context switch has a huge cost hopefully this tool minimizes it.
+Show AWS CLI usage and examples on the terminal. This does not eliminate the need to lookup aws cli documentation on the web but might minimize the number of times you need to leave the terminal and navigate web links in order to find an example or synopsis for a command you want to construct. This context switch has a huge cost and hopefully this tool minimizes it.
 
 ## Quickstart
 
